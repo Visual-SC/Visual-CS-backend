@@ -1,0 +1,444 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('rodson-coffee');
+
+// Insertar base de espresso
+db.baseDeEspresso.insertMany([
+  {
+    "nombre": "Espresso",
+    "descripcion": "Shot de café concentrado y aromático",
+    "precio": 5500
+  },
+  {
+    "nombre": "Americano",
+    "descripcion": "Espresso suavizado con agua caliente",
+    "precio": 6000
+  },
+  {
+    "nombre": "Campesino",
+    "descripcion": "Canela y panela",
+    "precio": 6500
+  },
+  {
+    "nombre": "Café Especiado",
+    "descripcion": "Anís, Clavo, Canela, Cardamomo",
+    "precio": 7500
+  },
+  {
+    "nombre": "Café Bom Bom",
+    "descripcion": "Espresso, Leche Condensada",
+    "precio": 7000
+  },
+  {
+    "nombre": "Macchiato 4oz",
+    "descripcion": "Espresso 2 OZ + Leche 10%",
+    "precio": 6500
+  },
+  {
+    "nombre": "Latte",
+    "descripcion": "Espresso con leche vaporizada suave",
+    "precio": 8000
+  },
+  {
+    "nombre": "Capuccino",
+    "descripcion": "Equilibrio perfecto entre espresso, leche y espuma",
+    "precio": 8500
+  },
+  {
+    "nombre": "Piccolo",
+    "descripcion": "Espresso Doble + Leche + Chai",
+    "precio": 10000
+  },
+  {
+    "nombre": "Capuccino Vienés",
+    "descripcion": "Espresso + Leche + Chantilly",
+    "precio": 11000
+  },
+  {
+    "nombre": "Flat White",
+    "descripcion": "Espresso intenso con microespuma sedosa",
+    "precio": 9000
+  },
+  {
+    "nombre": "Mocha",
+    "descripcion": "Espresso + Leche + Chocolate",
+    "precio": 9000
+  },
+  {
+    "nombre": "Affogato",
+    "descripcion": "Helado de Vainilla + Espresso",
+    "precio": 10000
+  },
+  {
+    "nombre": "Frappé de Café",
+    "descripcion": "Espresso + Leche + Chantilly",
+    "precio": 16000
+  },
+  {
+    "nombre": "Shakerato",
+    "descripcion": "Espresso + Hielo + Limón",
+    "precio": 9000
+  },
+  {
+    "nombre": "Orange Coffee",
+    "descripcion": "Espresso + Zumo de Naranja + Agua Tónica",
+    "precio": 14000
+  }
+]);
+
+// Insertar adiciones
+db.adiciones.insertMany([
+  {
+    "nombre": "Leche Vegetal",
+    "descripcion": "Almendra/Avena/Fría",
+    "precio": 5500
+  },
+  {
+    "nombre": "Bola de helado de vainilla",
+    "descripcion": "Cremoso helado artesanal de vainilla",
+    "precio": 4500
+  },
+  {
+    "nombre": "Adición de Licor",
+    "descripcion": "Amaretto, Whisky",
+    "precio": 8000
+  }
+]);
+
+// Insertar bebidas frías
+db.bebidasFrias.insertMany([
+  {
+    "nombre": "Malteada de Café",
+    "descripcion": "Cremosa malteada con intenso sabor a café",
+    "precio": 15000
+  },
+  {
+    "nombre": "Malteada de Milo",
+    "descripcion": "Clásica malteada de chocolate con Milo",
+    "precio": 16000
+  },
+  {
+    "nombre": "Malteada de Vainilla",
+    "descripcion": "Suave y cremosa malteada de vainilla natural",
+    "precio": 14000
+  },
+  {
+    "nombre": "Malteada de Chocolate",
+    "descripcion": "Rico chocolate en una malteada irresistible",
+    "precio": 15000
+  },
+  {
+    "nombre": "Limonada de Coco",
+    "descripcion": "Refrescante fusión tropical de limón y coco",
+    "precio": 12000
+  },
+  {
+    "nombre": "Limonada de Yerbabuena",
+    "descripcion": "Limón fresco con toque aromático de yerbabuena",
+    "precio": 9000
+  },
+  {
+    "nombre": "Limonada Natural",
+    "descripcion": "Limón recién exprimido, simple y refrescante",
+    "precio": 7500
+  },
+  {
+    "nombre": "Sodas",
+    "descripcion": "Maracuyá, lulo, mora",
+    "precio": 12000
+  },
+  {
+    "nombre": "Milo frio",
+    "descripcion": "Bebida fría de chocolate con Malta",
+    "precio": 9500
+  },
+  {
+    "nombre": "Chai Frio",
+    "descripcion": "Té especiado con leche servido frío",
+    "precio": 9500
+  },
+  {
+    "nombre": "Latte Frio",
+    "descripcion": "Café con leche sobre hielo, suave y refrescante",
+    "precio": 9500
+  },
+  {
+    "nombre": "Jugo en Agua",
+    "descripcion": "Frutas naturales licuadas con agua",
+    "precio": 8500
+  },
+  {
+    "nombre": "Jugo en Leche",
+    "descripcion": "Frutas naturales mezcladas con leche",
+    "precio": 10000
+  },
+  {
+    "nombre": "Cerveza Club Colombia",
+    "descripcion": "Cerveza colombiana premium bien fría",
+    "precio": 7500
+  },
+  {
+    "nombre": "Cerveza Terracruz",
+    "descripcion": "Cerveza artesanal con carácter local",
+    "precio": 7500
+  },
+  {
+    "nombre": "Bretaña en Botella",
+    "descripcion": "Agua con gas natural embotellada",
+    "precio": 6500
+  },
+  {
+    "nombre": "Agua en Botella",
+    "descripcion": "Agua natural purificada",
+    "precio": 5000
+  }
+]);
+
+// Insertar pastelería de sal
+db.pasteleriaDeSal.insertMany([
+  {
+    "nombre": "Empanadas Horneadas",
+    "descripcion": "Empanadas doradas al horno con relleno jugoso",
+    "precio": 7000
+  },
+  {
+    "nombre": "Pastel de Pollo",
+    "descripcion": "Hojaldre relleno de pollo en salsa especiada",
+    "precio": 7000
+  },
+  {
+    "nombre": "Croissant Queso Paipa",
+    "descripcion": "Croissant mantecoso con queso Paipa derretido",
+    "precio": 8000
+  },
+  {
+    "nombre": "Palito de Queso",
+    "descripcion": "Masa hojaldrada enrollada con queso gratinado",
+    "precio": 7000
+  },
+  {
+    "nombre": "Empanada/ Pastel Veggie",
+    "descripcion": "Opción vegetariana rellena de verduras frescas",
+    "precio": 7000
+  },
+  {
+    "nombre": "Croissant de Almendras",
+    "descripcion": "Croissant francés con almendras caramelizadas",
+    "precio": 12500
+  }
+]);
+
+// Insertar alicorados
+db.alicorados.insertMany([
+  {
+    "nombre": "Té piteado",
+    "descripcion": "Miel, limón, anís, canela limonaria, aguardiente",
+    "precio": 13000
+  },
+  {
+    "nombre": "Carajillo",
+    "descripcion": "Café + Whisky",
+    "precio": 13000
+  },
+  {
+    "nombre": "Canelazo",
+    "descripcion": "Agua + Panela + Whisky",
+    "precio": 13000
+  },
+  {
+    "nombre": "Capuccino",
+    "descripcion": "Whisky / Amaretto",
+    "precio": 14000
+  },
+  {
+    "nombre": "Café Irlandés",
+    "descripcion": "Espresso + Whisky + Crema Baileis",
+    "precio": 16000
+  },
+  {
+    "nombre": "Copa de Vino Caliente",
+    "descripcion": "Vino tinto especiado y calentado aromáticamente",
+    "precio": 16000
+  }
+]);
+
+// Insertar bebidas calientes sin café
+db.bebidasCalientesSinCafe.insertMany([
+  {
+    "nombre": "Té Negro, Herbal, Frutal",
+    "descripcion": "Tisana",
+    "precio": 6500
+  },
+  {
+    "nombre": "Infusión Aromática",
+    "descripcion": "Hierbas naturales en agua caliente reconfortante",
+    "precio": 8500
+  },
+  {
+    "nombre": "Milo Caliente",
+    "descripcion": "Chocolate con Malta caliente y cremoso",
+    "precio": 9000
+  },
+  {
+    "nombre": "Chocolate en Agua",
+    "descripcion": "Chocolate puro diluido en agua caliente",
+    "precio": 8000
+  },
+  {
+    "nombre": "Chocolate en Leche",
+    "descripcion": "Rico chocolate tradicional con leche cremosa",
+    "precio": 9500
+  },
+  {
+    "nombre": "Chocolate + Masmelos",
+    "descripcion": "Chocolate caliente coronado con masmelos esponjosos",
+    "precio": 12000
+  },
+  {
+    "nombre": "Té Chai en Agua",
+    "descripcion": "Té especiado tradicional preparado en agua",
+    "precio": 7500
+  },
+  {
+    "nombre": "Té Chai en Leche",
+    "descripcion": "Chai cremoso con leche vaporizada aromática",
+    "precio": 9500
+  },
+  {
+    "nombre": "Agua de Panela",
+    "descripcion": "Bebida tradicional colombiana dulce y reconfortante",
+    "precio": 8500
+  },
+  {
+    "nombre": "Agua de Panela con Queso",
+    "descripcion": "Agua de panela con queso campesino derretido",
+    "precio": 12500
+  },
+  {
+    "nombre": "Leche caliente con Canela",
+    "descripcion": "Leche tibia aromática con canela en rama",
+    "precio": 6500
+  }
+]);
+
+// Insertar pastelería dulce
+db.pasteleriaDulce.insertMany([
+  {
+    "nombre": "Torta Red Velvet",
+    "descripcion": "Torta aterciopelada con frosting de queso crema",
+    "precio": 12000
+  },
+  {
+    "nombre": "Torta de Chocolate Ferrero",
+    "descripcion": "Torta de chocolate con avellanas estilo Ferrero",
+    "precio": 12000
+  },
+  {
+    "nombre": "Cheese Cake de Frutos Rojos",
+    "descripcion": "Suave cheesecake con coulis de frutos del bosque",
+    "precio": 12000
+  },
+  {
+    "nombre": "Torta de Arándanos",
+    "descripcion": "Torta esponjosa con arándanos frescos naturales",
+    "precio": 11000
+  },
+  {
+    "nombre": "Torta de Chocolate",
+    "descripcion": "Clásica torta de chocolate húmeda y deliciosa",
+    "precio": 11000
+  },
+  {
+    "nombre": "Torta de Almojabana",
+    "descripcion": "Torta con textura de almojábana y queso",
+    "precio": 11000
+  },
+  {
+    "nombre": "Torta de Chocolate sin azúcar",
+    "descripcion": "Opción saludable de chocolate sin azúcar añadido",
+    "precio": 11000
+  },
+  {
+    "nombre": "Torta de Zanahoria sin azúcar",
+    "descripcion": "Zanahoria especiada naturalmente dulce sin azúcar",
+    "precio": 11000
+  },
+  {
+    "nombre": "Rollo de Canela",
+    "descripcion": "Masa enrollada con canela y glaseado cremoso",
+    "precio": 7000
+  },
+  {
+    "nombre": "Eclair",
+    "descripcion": "Pasta choux rellena de crema pastelera",
+    "precio": 9000
+  },
+  {
+    "nombre": "Mini Pie de Chocolate",
+    "descripcion": "Pequeña tarta de chocolate intenso y cremoso",
+    "precio": 7000
+  },
+  {
+    "nombre": "Alfajor",
+    "descripcion": "Galletas con dulce de leche y coco",
+    "precio": 7000
+  },
+  {
+    "nombre": "Golden Brownie",
+    "descripcion": "Brownie dorado con centro fundido irresistible",
+    "precio": 9000
+  },
+  {
+    "nombre": "Galletas",
+    "descripcion": "Galletas artesanales horneadas del día",
+    "precio": 6000
+  }
+]);
+
+// Insertar métodos de filtrado
+db.metodosDeFiltrado.insertMany([
+  {
+    "descripcion": "Explora nuestros métodos de café filtrado",
+    "metodos": ["Inmersión", "Goteo", "Presión"],
+    "precios": {
+      "1taza": 10000,
+      "2tazas": 18000,
+      "nota": "Pídelo también en Frío"
+    },
+    "adicionales": {
+      "naturalesYHoneys": 3000,
+      "sifon": 3000
+    }
+  }
+]);
+
+// Insertar café en casa
+db.cafeEnCasa.insertMany([
+  {
+    "descripcion": "Pregunta nuestros orígenes disponibles.",
+    "presentacion": "Pídelo en grano o molido.",
+    "precio": 110000,
+    "nota": "con reserva"
+  }
+]);
+
+// Insertar catas de café
+db.catasDeCafe.insertMany([
+  {
+    "duracion": "2 horas",
+    "descripcion": "Experiencia sensorial",
+    "incluye": "4 muestras de café",
+    "souvenir": "Souvenir de café"
+  }
+]);
+
+// Insertar información de contacto
+db.informacionContacto.insertMany([
+  {
+    "instagram": "@rodsoncoffee",
+    "telefono": "301 6954232",
+    "horario": "de lunes a domingo"
+  }
+]);
