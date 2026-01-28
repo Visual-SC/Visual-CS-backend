@@ -1,0 +1,96 @@
+// Script de migración: Estructura antigua -> Nueva estructura unificada
+// Este script migra los datos de las colecciones separadas a la nueva estructura
+
+use('rodson-coffee');
+
+// 1. Crear las categorías
+db.categorias.insertMany([
+    { nombre: "baseDeEspresso", descripcion: "Bebidas a base de espresso", orden: 1, activo: true },
+    { nombre: "adiciones", descripcion: "Adiciones y extras", orden: 2, activo: true },
+    { nombre: "bebidasFrias", descripcion: "Bebidas frías", orden: 3, activo: true },
+    { nombre: "pasteleriaDeSal", descripcion: "Pastelería salada", orden: 4, activo: true },
+    { nombre: "alicorados", descripcion: "Bebidas con alcohol", orden: 5, activo: true },
+    { nombre: "bebidasCalientesSinCafe", descripcion: "Bebidas calientes sin café", orden: 6, activo: true },
+    { nombre: "pasteleriaDulce", descripcion: "Pastelería dulce", orden: 7, activo: true }
+]);
+
+// 2. Obtener los IDs de las categorías
+const categorias = {};
+db.categorias.find().forEach(cat => {
+    categorias[cat.nombre] = cat._id;
+});
+
+// 3. Migrar items de cada colección a menuItems
+const colecciones = [
+    'baseDeEspresso',
+    'adiciones', 
+    'bebidasFrias',
+    'pasteleriaDeSal',
+    'alicorados',
+    'bebidasCalientesSinCafe',
+    'pasteleriaDulce'
+];
+
+colecciones.forEach(nombreColeccion => {
+    const items = db.getCollection(nombreColeccion).find().toArray();
+    
+    const menuItems = items.map(item => ({
+        nombre: item.nombre,
+        descripcion: item.descripcion,
+        precio: item.precio,
+        categoria: categorias[nombreColeccion],
+        disponible: true,
+        destacado: false,
+        etiquetas: [],
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }));
+    
+    if (menuItems.length > 0) {
+        db.menuItems.insertMany(menuItems);
+    }
+});
+
+// 4. Migrar información general
+db.informacionGeneral.insertMany([
+    {
+        tipo: 'contacto',
+        datos: db.informacionContacto.findOne(),
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        tipo: 'metodosFiltrado',
+        datos: db.metodosDeFiltrado.findOne(),
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        tipo: 'cafeEnCasa',
+        datos: db.cafeEnCasa.findOne(),
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        tipo: 'catas',
+        datos: db.catasDeCafe.findOne(),
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+]);
+
+// 5. Verificar la migración
+print("=== RESUMEN DE MIGRACIÓN ===");
+print("Categorías creadas: " + db.categorias.countDocuments());
+print("Items del menú migrados: " + db.menuItems.countDocuments());
+print("Información general migrada: " + db.informacionGeneral.countDocuments());
+
+print("\nItems por categoría:");
+db.categorias.find().forEach(cat => {
+    const count = db.menuItems.countDocuments({ categoria: cat._id });
+    print(`  ${cat.nombre}: ${count} items`);
+});
