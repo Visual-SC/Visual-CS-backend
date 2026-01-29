@@ -1,18 +1,6 @@
 const { Schema, model } = require('mongoose');
+const { MenuItem } = require('./MenuItem');
 
-const alicoradosSchema = Schema({
-    descripcion:{
-        type:String,
-        required:true
-    },
-    nombre:{
-        type:String,
-        required:true
-    },
-    precio:{
-        type:Number,
-        required:true    
-    },
-})
+const alicoradosSchema = MenuItem.discriminator('alicorados',new Schema({}));
 
 module.exports = model("alicorados",alicoradosSchema,"alicorados");

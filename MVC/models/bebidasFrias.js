@@ -1,18 +1,6 @@
 const { Schema, model } = require('mongoose');
+const { MenuItem } = require('./MenuItem');
 
-const bebidasFriasSchema = Schema({
-    descripcion:{
-        type:String,
-        required:true
-    },
-    nombre:{
-        type:String,
-        required:true
-    },
-    precio:{
-        type:Number,
-        required:true    
-    },
-})
+const bebidasFriasSchema = MenuItem.discriminator('bebidasFrias',new Schema({}));
 
 module.exports = model("bebidasFrias",bebidasFriasSchema,"bebidasFrias");

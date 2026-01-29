@@ -1,18 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema,model} = require('mongoose');
+const { MenuItem } = require('./MenuItem');
 
-const adicionesSchema = Schema({
-    descripcion:{
-        type:String,
-        required:true
-    },
-    nombre:{
-        type:String,
-        required:true
-    },
-    precio:{
-        type:Number,
-        required:true    
-    },
-})
+const adicionesSchema =  MenuItem.discriminator('adiciones',new Schema({}));
 
-module.exports = model("adiciones",adicionesSchema,"adiciones");
+module.exports = model("adiciones",adicionesSchema,"adiciones")
