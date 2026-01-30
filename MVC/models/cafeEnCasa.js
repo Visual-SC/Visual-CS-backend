@@ -9,4 +9,6 @@ const cafeEnCasaSchema = Schema({
     }
 })
 
+//lo dejamos tal cual como está es muy difrerente
+
 module.exports = model("cafeEnCasa",cafeEnCasaSchema,"cafeEnCasa");
