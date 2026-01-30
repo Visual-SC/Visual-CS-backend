@@ -1,18 +1,8 @@
 const { Schema, model } = require('mongoose');
+const { MenuItemSchema } = require('./MenuItem');
 
 const cafeEnCasaSchema = Schema({
-    descripcion:{
-        type:String,
-        required:true
-    },
-    presentacion:{
-        type:String,
-        required:true
-    },
-    precio:{
-        type:Number,
-        required:true    
-    },
+    ...MenuItemSchema,
     nota:{
         type:String,
         required:true

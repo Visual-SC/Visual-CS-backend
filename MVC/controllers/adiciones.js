@@ -1,17 +1,8 @@
 //importar el modelde de: adiciones
 const Adiciones = require('../models/adiciones');
 
-/*crea una ruta de prueba 💡*/
-
-const test = (req,res) =>{
-    return res.status(200).send({
-        status:"successs",
-        message:"ruta de prueba"
-    })
-}
-
 /*funcion para obtener los datos de: adiciones ☕*/
-const getAdiciones = async (req,res) =>{
+const getAdditions = async (req,res) =>{
     await Adiciones.find({})
     .then((adicionesList)=>{
         if(!adicionesList){
@@ -30,6 +21,5 @@ const getAdiciones = async (req,res) =>{
 }
 
 module.exports = {
-    test,
-    getAdiciones
+    getAdditions
 }

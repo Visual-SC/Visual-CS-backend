@@ -1,18 +1,8 @@
 const { Schema, model } = require('mongoose');
+const { MenuItemSchema } = require('./MenuItem');
 
 const bebidasFriasSchema = Schema({
-    descripcion:{
-        type:String,
-        required:true
-    },
-    nombre:{
-        type:String,
-        required:true
-    },
-    precio:{
-        type:Number,
-        required:true    
-    },
+    ...MenuItemSchema
 })
 
 module.exports = model("bebidasFrias",bebidasFriasSchema,"bebidasFrias");

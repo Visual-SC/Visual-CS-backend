@@ -1,9 +1,9 @@
-const controllerAdiciones = require('../controllers/adiciones')
+//controladores
+const controllerAdditions = require('../controllers/adiciones')
 
 const express = require('express');
-const routerAdiciones = express.Router();
+const routerAddtions = express.Router();
 
-routerAdiciones.get("/adiciones-prueba",controllerAdiciones.test);
-routerAdiciones.get("/adiciones",controllerAdiciones.getAdiciones);
+routerAddtions.get("/adiciones",controllerAdditions.getAdditions);
 
-module.exports = routerAdiciones;
+module.exports = routerAddtions;

@@ -1,0 +1,72 @@
+[
+    {
+        "nombre": "Torta Red Velvet",
+        "descripcion": "Deliciosa torta Red Velvet",
+        "precio": 12000
+    },
+    {
+        "nombre": "Torta de Chocolate Ferrero",
+        "descripcion": "Exquisita torta de chocolate Ferrero",
+        "precio": 12000
+    },
+    {
+        "nombre": "Cheese Cake de Frutos Rojos",
+        "descripcion": "Cheese cake con frutos rojos",
+        "precio": 12000
+    },
+    {
+        "nombre": "Torta de Arándanos",
+        "descripcion": "Torta de arándanos frescos",
+        "precio": 11000
+    },
+    {
+        "nombre": "Torta de Chocolate",
+        "descripcion": "Clásica torta de chocolate",
+        "precio": 11000
+    },
+    {
+        "nombre": "Torta de Almojabana",
+        "descripcion": "Torta de almojabana tradicional",
+        "precio": 11000
+    },
+    {
+        "nombre": "Torta de Chocolate sin azucar",
+        "descripcion": "Torta de chocolate sin azúcar",
+        "precio": 11000
+    },
+    {
+        "nombre": "Torta de Zanahoria sin azucar",
+        "descripcion": "Torta de zanahoria sin azúcar",
+        "precio": 11000
+    },
+    {
+        "nombre": "Rollo de Canela",
+        "descripcion": "Rollo de canela casero",
+        "precio": 7000
+    },
+    {
+        "nombre": "Eclair",
+        "descripcion": "Eclair relleno",
+        "precio": 9000
+    },
+    {
+        "nombre": "Mini Pie de Chocolate",
+        "descripcion": "Mini pie de chocolate",
+        "precio": 7000
+    },
+    {
+        "nombre": "Alfajor",
+        "descripcion": "Alfajor tradicional",
+        "precio": 7000
+    },
+    {
+        "nombre": "Golden Brownie",
+        "descripcion": "Brownie dorado especial",
+        "precio": 9000
+    },
+    {
+        "nombre": "Galletas",
+        "descripcion": "Galletas caseras",
+        "precio": 6000
+    }
+]
