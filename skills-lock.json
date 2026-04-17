@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "mongodb": {
+      "source": "hoodini/ai-agents-skills",
+      "sourceType": "github",
+      "computedHash": "7307fd4f2e946457587880475908c63d9df7017150ca1abde5629055f7961f69"
+    },
+    "nodejs-express-server": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "8a7fe50351131f99b7bc7750bb4be6e7cbd7919b3b346c8fc7f857fb1ecad059"
+    }
+  }
+}
