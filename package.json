@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Visual-SC/Visual-CS-backend.git"
+    "start": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",

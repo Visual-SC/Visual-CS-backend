@@ -1,1 +1,4 @@
-console.log("Soy el archivo de backend")
+import { connection } from "./database/connection";
+
+connection.connect()
+
