@@ -10,7 +10,7 @@ Sistema de pedidos en kiosco para Rodson Coffee que permite a los clientes const
 
 | Capa | Tecnología |
 |------|------------|
-| **Backend** | Node.js 20 LTS + Express.js (MVC), MongoDB Atlas, Mongoose |
+| **Backend** | Node.js 20 LTS + Express.js (MVC), MongoDB Atlas, Mongoose, Typescript |
 | **Frontend** | React 18 + Vite, TypeScript strict, TailwindCSS, React Router, Zustand (carrito) |
 
 ---
@@ -21,10 +21,11 @@ Sistema de pedidos en kiosco para Rodson Coffee que permite a los clientes const
 
 | # | Tarea | Endpoint | Descripción |
 |---|-------|----------|-------------|
-| B2.1 | Listar productos | `GET /api/products` | Retorna catálogo completo con categorías |
-| B2.2 | Producto por ID | `GET /api/products/:id` | Detalle de producto con personalizaciones disponibles |
-| B2.3 | Productos por categoría | `GET /api/products/category/:slug` | Filtrar por las 7 categorías |
-| B2.4 | Verificar disponibilidad | `GET /api/products/:id/availability` | Check de stock/disponibilidad |
+| B2.1 | Crear Lista de Productos | `GET /api/products` | Retorna catálogo completo con categorías |
+| B2.2 | Listar productos | `GET /api/products` | Retorna catálogo completo con categorías |
+| B2.3 | Producto por ID | `GET /api/products/:id` | Detalle de producto con personalizaciones disponibles |
+| B2.4 | Productos por categoría | `GET /api/products/category/:slug` | Filtrar por las 7 categorías |
+| B2.5 | Verificar disponibilidad | `GET /api/products/:id/availability` | Check de stock/disponibilidad |
 
 **Modelo Product**:
 ```javascript
