@@ -34,16 +34,39 @@ class ProductController {
                     message: "No se pudieron crear los productos"
                 });
             }
-            
-        } catch (error: any) {
-            // 4. Si no, retornar mensaje de error
+    
+        } catch (error) {
             return res.status(500).send({
                 status: "error",
                 message: "Error al crear los productos",
-                error: error?.message || error
+                error: error
             });
         }
     }
+
+    async getProducts(req: Request, res: Response) {
+       const products = await Product.find();
+       try {
+        if(products && products.length > 0){
+            return res.status(200).send({
+                status: "success",
+                message: "Productos obtenidos correctamente",
+                data: products
+            });
+        } else {
+            return res.status(404).send({
+                status: "error",
+                message: "No se encontraron productos"
+            });
+        }
+       } catch (error) {
+              return res.status(500).send({
+                status: "error",
+                message: "Error al obtener los productos",
+                error: error
+            });
+       } 
+    }    
 }
 
 const productController = new ProductController(express.request, express.response);    
