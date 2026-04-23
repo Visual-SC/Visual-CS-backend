@@ -12,13 +12,6 @@ class ProductController {
         this.res = res;
     }
 
-    async proof(req: Request, res: Response){
-        return res.status(200).send({
-        status:"success",
-        message: "está funcionando la ruta de articulo"
-        })
-    }
-
     async createProducts(req: Request, res: Response) { 
         const result = await Product.insertMany(productsList);
         try {
@@ -50,13 +43,13 @@ class ProductController {
         if(products && products.length > 0){
             return res.status(200).send({
                 status: "success",
-                message: "Productos obtenidos correctamente",
+                message: "Productos obtenidos correctamente ☕🍽️",
                 data: products
             });
         } else {
             return res.status(404).send({
                 status: "error",
-                message: "No se encontraron productos"
+                message: "No se encontraron productos ❌"
             });
         }
        } catch (error) {

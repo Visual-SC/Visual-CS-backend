@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export interface Product extends Document {
+export interface IProduct {
 	nombre: string;
 	categoria: 'bebida_caliente' | 'bebida_fria' | 'comida' | string;
 	precio: number;
@@ -9,6 +9,8 @@ export interface Product extends Document {
 	imagen: string;
 	ingredientes?: string[];
 }
+
+export interface Product extends IProduct, Document {}
 
 export const ProductSchema = new Schema<Product>({
 	nombre: { type: String, required: true },
