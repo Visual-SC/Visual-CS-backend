@@ -6,6 +6,7 @@ export interface Product extends Document {
 	precio: number;
 	descripcion: string;
 	disponible: boolean;
+	imagen: string;
 	ingredientes?: string[];
 }
 
@@ -15,6 +16,7 @@ export const ProductSchema = new Schema<Product>({
 	precio: { type: Number, required: true },
 	descripcion: { type: String, required: true },
 	disponible: { type: Boolean, required: true, default: true },
+	imagen: { type: String, required: true },
 	ingredientes: { type: [String] },
 });
 

@@ -18,6 +18,7 @@ export class Server {
     start() {
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
     }
     
     get(){
@@ -43,4 +44,5 @@ server.get();
 server.listen();    
 
 server.app.use("/api", ProductRouter);
+
 
