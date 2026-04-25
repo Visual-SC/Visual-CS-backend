@@ -47,6 +47,32 @@ class OrderController {
             });
         }
     }
+
+    async getOrders(req: Request, res: Response) {
+        const orders = await OrdenCafe.find();
+        
+        try {
+            if(orders && orders.length > 0){
+                return res.status(200).send({
+                    status: "success",
+                    message: "Órdenes obtenidas correctamente ☕🛒",
+                    data: orders
+                });
+            } else {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se encontraron órdenes ❌"
+                });
+            }
+        } catch (error) {
+             return res.status(500).send({
+                status: "error",
+                message: "Error al obtener los Ordens ❌",
+                error: error
+            });
+        }
+
+    }        
 }
 
 const orderController = new OrderController(express.request, express.response);
