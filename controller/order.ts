@@ -12,7 +12,7 @@ class OrderController {
      
     async proof(req: Request, res: Response){
         return res.status(200).send({
-        status:"sxuccess",
+        status:"success",
         message: "está funcionando la ruta de orden"
         })
     }
@@ -67,7 +67,7 @@ class OrderController {
         } catch (error) {
              return res.status(500).send({
                 status: "error",
-                message: "Error al obtener los Ordens ❌",
+                message: "Error al obtener las órdenes ❌",
                 error: error
             });
         }
