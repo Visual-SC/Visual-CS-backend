@@ -61,42 +61,48 @@ class ProductController {
     }
     
     async getProductsByCategory(req: Request, res: Response) {
-        const category = req.params.category;
-        console.log(category)
-        const totalProducts = await Product.find();    
+        let category = req.params.category;
 
+        let page:number = 1;
 
-        const products = await Product.find({ categoria: category });
-        //const prodcutsCategories = [...new Set(totalProducts.map(product => product.categoria))];
-        //console.log(prodcutsCategories)
+        const itemsPerPage = 9;
 
-        //let filteredProducts = await Product.find({ categoria: category });
-        //console.log(filteredProducts)       
-
-        //const products = await Product.find({ categoria: category });
-        
-
-        try {
-        if(products && products.length > 0){
-            return res.status(200).send({
-                status: "success",
-                message: "Productos obtenidos correctamente ☕🍽️",
-                data: products
-            });
-        } else {
-            return res.status(404).send({
-                status: "error",
-                message: "No se encontraron productos ❌"
-            });
+        if(req.params.page){
+            page = req.params.page as unknown as number;
         }
-       } catch (error) {
-              return res.status(500).send({
-                status: "error",
-                message: "Error al obtener los productos",
-                error: error
-            });
-       } 
 
+        let totalCounter: number = 0;
+
+        await Product.where({categoria: category})
+        .countDocuments()
+        .then((total)=>{
+            totalCounter = total;
+            totalCounter = Math.ceil(totalCounter/itemsPerPage);
+            return totalCounter;
+        })
+
+
+        await Product
+        .find({ categoria: category })
+        .populate('categoria')
+        .skip((page - 1) * itemsPerPage)
+        .limit(itemsPerPage)
+        .then((products)=>{
+            if(products && products.length > 0){
+                return res.status(200).send({
+                    status: "success",
+                    message: "Productos obtenidos correctamente ☕🍽️",
+                    data: products,
+                    totalPages: totalCounter,
+                    currentPage: page
+                });
+            } else {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se encontraron productos ❌"
+                });
+            }   
+        })
     }
 }
 
