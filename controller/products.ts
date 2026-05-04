@@ -104,6 +104,37 @@ class ProductController {
             }   
         })
     }
+
+    async getOneProduct(req: Request, res: Response) {
+         let id = req.params.id;
+ 
+         try {
+           if(id){
+            await Product.findById(id)
+            .exec()
+            .then((product)=>{
+                return res.status(200).send({
+                status: "success",
+                message: "Producto obtenido correctamente ☕🍽️",
+                product: product
+                //id: product?._id   
+                })    
+            })    
+            }
+            else {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se encontró el producto ❌"
+                });
+            }     
+         } catch (error) {
+             return res.status(500).send({
+                status: "error",
+                message: "Error al obtener los productos ❌",
+                error: error
+            });
+         } 
+    }
 }
 
 const productController = new ProductController(express.request, express.response);    
