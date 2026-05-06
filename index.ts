@@ -32,7 +32,11 @@ export class Server {
 const server = new Server(express());
 
 server.start();
-server.listen();    
+server.listen();
+
+server.app.use(cors());
+server.app.use(express.json());
+server.app.use(express.urlencoded({ extended: true }));
 
 //Uso de la conexión del servidor con los productos ☕
 server.app.use("/api", ProductRouter);
