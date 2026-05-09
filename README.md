@@ -32,6 +32,60 @@ La interfaz incluye características de **accesibilidad para personas con discap
 ![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 
+## Docker
+
+### Requisitos
+
+- Docker Desktop (o Docker Engine) con soporte de `docker compose`.
+
+### Levantar el proyecto
+
+Levanta el backend y MongoDB (con volumen persistente) con:
+
+```bash
+docker compose up --build
+```
+
+Si lo prefieres en segundo plano:
+
+```bash
+docker compose up -d --build
+```
+
+- Backend: `http://localhost:3001`
+- MongoDB: `mongodb://localhost:27017/rodson-coffee`
+
+### Ver logs
+
+```bash
+docker compose logs -f
+```
+
+### Reconstruir imágenes
+
+```bash
+docker compose build --no-cache
+```
+
+### Detener / limpiar
+
+Para detener y borrar contenedores (manteniendo la data del volumen de MongoDB):
+
+```bash
+docker compose down
+```
+
+Para borrar también la data de MongoDB (reset total):
+
+```bash
+docker compose down -v
+```
+
+### Notas
+
+- El backend se conecta a MongoDB usando `DATABASE_URL` (definido en `docker-compose.yml`).
+- Los scripts en `mongo/init/` se ejecutan **solo** la primera vez que se inicializa la DB (cuando el volumen está vacío).
+
 # Características del proyecto
 
 ### Catálogo digital del menú

@@ -61,48 +61,45 @@ class ProductController {
     }
     
     async getProductsByCategory(req: Request, res: Response) {
-        let category = req.params.category;
-
-        let page:number = 1;
-
+        const category = req.params.category;
         const itemsPerPage = 9;
 
-        if(req.params.page){
-            page = req.params.page as unknown as number;
-        }
+        const pageParam = req.params.page;
+        const rawPage = Array.isArray(pageParam) ? (pageParam[0] ?? "1") : (pageParam ?? "1");
+        const parsedPage = Number.parseInt(rawPage, 10);
+        const page = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
 
-        let totalCounter: number = 0;
+        try {
+            const totalCount = await Product.countDocuments({ categoria: category });
+            const totalPages = totalCount > 0 ? Math.ceil(totalCount / itemsPerPage) : 0;
 
-        await Product.where({categoria: category})
-        .countDocuments()
-        .then((total)=>{
-            totalCounter = total;
-            totalCounter = Math.ceil(totalCounter/itemsPerPage);
-            return totalCounter;
-        })
+            const products = await Product.find({ categoria: category })
+                .skip((page - 1) * itemsPerPage)
+                .limit(itemsPerPage);
 
-
-        await Product
-        .find({ categoria: category })
-        .populate('categoria')
-        .skip((page - 1) * itemsPerPage)
-        .limit(itemsPerPage)
-        .then((products)=>{
-            if(products && products.length > 0){
+            if (products && products.length > 0) {
                 return res.status(200).send({
                     status: "success",
                     message: "Productos obtenidos correctamente ☕🍽️",
                     data: products,
-                    totalPages: totalCounter,
-                    currentPage: page
+                    totalPages,
+                    currentPage: page,
                 });
-            } else {
-                return res.status(404).send({
-                    status: "error",
-                    message: "No se encontraron productos ❌"
-                });
-            }   
-        })
+            }
+
+            return res.status(404).send({
+                status: "error",
+                message: "No se encontraron productos ❌",
+                totalPages,
+                currentPage: page,
+            });
+        } catch (error) {
+            return res.status(500).send({
+                status: "error",
+                message: "Error al obtener los productos",
+                error,
+            });
+        }
     }
 
     async getOneProduct(req: Request, res: Response) {
