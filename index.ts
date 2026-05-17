@@ -5,8 +5,6 @@ import ProductRouter from "./routes/product";
 import OrderRouter from "./routes/order";
 import { port } from "./utils/port";
 
-connection.connect()
-
 //clase para configurar el servidor
 export class Server {
     app: express.Application;
@@ -43,4 +41,9 @@ server.app.use("/api", ProductRouter);
 
 //Uso de la conexión del servidor con la orden 🛒
 server.app.use("/api", OrderRouter);
+
+// Conectar a MongoDB
+connection.connect().catch((error) => {
+    console.error("Fallo la conexión inicial a la base de datos:", error);
+});
 

@@ -29,5 +29,7 @@ export const orderExample: Partial<OrdenCafe> = {
 	resumen: {
 		subtotal: 21000,
 		total: 21000
-	}
+	},
+	cliente: "Juan Pérez",
+	numero_mesa: "B"
 }
