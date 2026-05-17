@@ -2,8 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 import type { IProduct } from './product';
 
 export type EstadoOrden = 'pendiente' | 'preparando' | 'completada' | 'cancelada';
-export type NumeroDeMesa = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'F1' | 'F2' | 'F3' | 'F4';
- 
+export type NumeroDeMesa = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'F1' | 'F2' | 'F3' | 'F4'; 
 interface ProductItem extends IProduct {
   cantidad: number;
   total: number;
