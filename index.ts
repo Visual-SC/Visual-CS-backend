@@ -3,6 +3,7 @@ import cors from "cors";
 import { connection } from "./database/connection";
 import ProductRouter from "./routes/product";
 import OrderRouter from "./routes/order";
+import EventRouter from "./routes/event";
 import { port } from "./utils/port";
 
 //clase para configurar el servidor
@@ -41,6 +42,9 @@ server.app.use("/api", ProductRouter);
 
 //Uso de la conexión del servidor con la orden 🛒
 server.app.use("/api", OrderRouter);
+
+//Uso de la conexión del servidor con los eventos 🎉
+server.app.use("/api", EventRouter);
 
 // Conectar a MongoDB
 connection.connect().catch((error) => {

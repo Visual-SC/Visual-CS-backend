@@ -576,7 +576,7 @@ export const productsList: Partial<Product>[] = [
 	},
 	{ 
 		nombre: 'Galletas', 
-		categoria: 'pasteleria_dulce', 
+		categoria: 'pasteleria_dulcec', 
 		precio: 6000, 
 		descripcion: 'Surtido de galletas artesanales recién horneadas con diferentes sabores', 
 		disponible: true, 
