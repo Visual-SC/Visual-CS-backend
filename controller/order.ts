@@ -82,6 +82,78 @@ class OrderController {
             });
         }
     }
+
+    getRevenue = async (req: Request, res: Response) => {
+        try {
+            const type = req.params.type as string;
+
+            if (!['daily', 'monthly'].includes(type)) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "Tipo no válido. Usa 'daily' o 'monthly' ❌"
+                });
+            }
+
+            const now = new Date();
+            let startDate: Date;
+            let groupBy: object;
+            let dateFormat: string;
+
+            if (type === 'daily') {
+                startDate = new Date(now);
+                startDate.setDate(startDate.getDate() - 30);
+                startDate.setHours(0, 0, 0, 0);
+                groupBy = {
+                    year: { $year: "$fecha" },
+                    month: { $month: "$fecha" },
+                    day: { $dayOfMonth: "$fecha" }
+                };
+                dateFormat = "%Y-%m-%d";
+            } else {
+                startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+                groupBy = {
+                    year: { $year: "$fecha" },
+                    month: { $month: "$fecha" }
+                };
+                dateFormat = "%Y-%m";
+            }
+
+            const result = await OrdenCafe.aggregate([
+                { $match: { fecha: { $gte: startDate }, estado: { $ne: 'cancelada' } } },
+                {
+                    $group: {
+                        _id: groupBy,
+                        total: { $sum: "$resumen.total" },
+                        orders: { $sum: 1 },
+                        date: { $first: { $dateToString: { format: dateFormat, date: "$fecha" } } }
+                    }
+                },
+                { $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } }
+            ]);
+
+            const data = result.map(item => ({
+                date: item.date,
+                total: item.total,
+                orders: item.orders
+            }));
+
+            return res.status(200).send({
+                status: "success",
+                message: `Ingresos ${type === 'daily' ? 'diarios' : 'mensuales'} obtenidos correctamente ☕`,
+                data: {
+                    type,
+                    chartData: data
+                }
+            });
+        } catch (error) {
+            return res.status(500).send({
+                status: "error",
+                message: "Error al obtener los ingresos ❌",
+                error: error
+            });
+        }
+    }
+    
 }
 
 export default new OrderController();
