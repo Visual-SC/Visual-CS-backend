@@ -83,6 +83,64 @@ class OrderController {
         }
     }
 
+    getDate = async (req: Request, res: Response) => {
+        try {
+            const type = req.params.type as string;
+
+            if (type === 'last5') {
+                const orders = await OrdenCafe.find()
+                    .sort({ fecha: -1 })
+                    .limit(5);
+
+                if (orders && orders.length > 0) {
+                    return res.status(200).send({
+                        status: "success",
+                        message: "Últimas 5 órdenes obtenidas correctamente ☕🛒",
+                        data: orders
+                    });
+                } else {
+                    return res.status(404).send({
+                        status: "error",
+                        message: "No se encontraron órdenes ❌"
+                    });
+                }
+            } else if (type === 'monthly') {
+                const now = new Date();
+                const year = parseInt(req.query.year as string) || now.getFullYear();
+                const month = parseInt(req.query.month as string) || (now.getMonth() + 1);
+
+                const startDate = new Date(year, month - 1, 1);
+                const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+                const orders = await OrdenCafe.find({
+                    fecha: { $gte: startDate, $lte: endDate }
+                }).sort({ fecha: -1 });
+
+                return res.status(200).send({
+                    status: "success",
+                    message: `Órdenes del mes ${month}/${year} obtenidas correctamente ☕`,
+                    data: {
+                        year,
+                        month,
+                        totalOrders: orders.length,
+                        orders
+                    }
+                });
+            } else {
+                return res.status(400).send({
+                    status: "error",
+                    message: "Tipo no válido. Usa 'last5' o 'monthly' ❌"
+                });
+            }
+        } catch (error) {
+            return res.status(500).send({
+                status: "error",
+                message: "Error al obtener las órdenes por fecha ❌",
+                error: error
+            });
+        }
+    }
+
     getRevenue = async (req: Request, res: Response) => {
         try {
             const type = req.params.type as string;
@@ -153,6 +211,8 @@ class OrderController {
             });
         }
     }
+
+    
     
 }
 
