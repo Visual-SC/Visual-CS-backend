@@ -35,7 +35,8 @@ class OrderController {
     }
 
     getOrders = async (req: Request, res: Response) => {
-        const orders = await OrdenCafe.find().sort({ fecha: -1 });
+        const sortOrder = req.query.order === "asc" ? 1 : -1;
+        const orders = await OrdenCafe.find().sort({ fecha: sortOrder });
         
         try {
             if(orders && orders.length > 0){

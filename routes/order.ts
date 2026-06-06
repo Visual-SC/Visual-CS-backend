@@ -6,8 +6,12 @@ const OrderRouter = Router();
 
 OrderRouter.post('/create-order', orderController.createOrder);
 OrderRouter.get('/get-orders', orderController.getOrders);
-OrderRouter.delete('/delete-orders', orderController.deleteOrders);
+/*Para hacer la solicitud de las ordenes 🛒 usa
+    order/get-orders?order=asc: orden ascendente
+    order/get-orders?order=desc: orden descendente (por defecto)
+*/
 
+OrderRouter.delete('/delete-orders', orderController.deleteOrders);
 /*Para hacer la solicitud de los ingresos 💵 usa
     order-revenue/daily
     order-revenue/monthly
