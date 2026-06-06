@@ -27,7 +27,7 @@ export interface OrdenCafe extends IOrdenCafe, Document {}
 
 export const OrdenCafeSchema = new Schema<OrdenCafe>({
   numero_orden: { type: String, required: true, unique: true },
-  fecha: { type: Date, default: Date.now }, 
+  fecha: { type: Date, default: Date.now, index: true }, 
   estado: { type: String, enum: ['pendiente', 'preparando', 'completada', 'cancelada'], required: true },
   items: { type: [Object], required: true },
   resumen: { type: Object, required: true },
