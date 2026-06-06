@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { OrdenCafe } from "../model/order";
+import { FormaShortDate } from "../utils/FormatShortDate";
 
 class OrderController {
     createOrder = async (req: Request, res: Response) => {
@@ -112,10 +113,13 @@ class OrderController {
                     status: "success",
                     message: "Órdenes de los últimos 5 días obtenidas correctamente ☕🛒",
                     data: {
-                        startDate,
-                        endDate,
+                        startDate: FormaShortDate.format(startDate),
+                        endDate: FormaShortDate.format(endDate),
                         totalOrders: orders.length,
-                        orders
+                        orders: orders.map(order => ({
+                            ...order.toObject(),
+                            fecha: FormaShortDate.format(order.fecha)
+                        }))
                     }
                 });
             } else if (type === 'monthly') {
@@ -136,8 +140,13 @@ class OrderController {
                     data: {
                         year,
                         month,
+                        startDate: FormaShortDate.format(startDate),
+                        endDate: FormaShortDate.format(endDate),
                         totalOrders: orders.length,
-                        orders
+                        orders: orders.map(order => ({
+                            ...order.toObject(),
+                            fecha: FormaShortDate.format(order.fecha)
+                        }))
                     }
                 });
             } else {
