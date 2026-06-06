@@ -88,22 +88,36 @@ class OrderController {
             const type = req.params.type as string;
 
             if (type === 'last5') {
-                const orders = await OrdenCafe.find()
-                    .sort({ fecha: -1 })
-                    .limit(5);
+                const latestOrder = await OrdenCafe.findOne().sort({ fecha: -1 });
 
-                if (orders && orders.length > 0) {
-                    return res.status(200).send({
-                        status: "success",
-                        message: "Últimas 5 órdenes obtenidas correctamente ☕🛒",
-                        data: orders
-                    });
-                } else {
+                if (!latestOrder) {
                     return res.status(404).send({
                         status: "error",
                         message: "No se encontraron órdenes ❌"
                     });
                 }
+
+                const endDate = new Date(latestOrder.fecha);
+                endDate.setHours(23, 59, 59, 999);
+
+                const startDate = new Date(endDate);
+                startDate.setDate(startDate.getDate() - 4);
+                startDate.setHours(0, 0, 0, 0);
+
+                const orders = await OrdenCafe.find({
+                    fecha: { $gte: startDate, $lte: endDate }
+                }).sort({ fecha: -1 });
+
+                return res.status(200).send({
+                    status: "success",
+                    message: "Órdenes de los últimos 5 días obtenidas correctamente ☕🛒",
+                    data: {
+                        startDate,
+                        endDate,
+                        totalOrders: orders.length,
+                        orders
+                    }
+                });
             } else if (type === 'monthly') {
                 const now = new Date();
                 const year = parseInt(req.query.year as string) || now.getFullYear();
