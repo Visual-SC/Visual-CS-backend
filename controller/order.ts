@@ -110,16 +110,41 @@ class OrderController {
                     fecha: { $gte: startDate, $lte: endDate }
                 }).sort({ fecha: -1 });
 
+                const last5Days = [];
+                for (let i = 4; i >= 0; i--) {
+                    const day = new Date(endDate);
+                    day.setDate(day.getDate() - i);
+                    day.setHours(0, 0, 0, 0);
+                    last5Days.push(day.toISOString());
+                }
+
+                const ordersByDay = last5Days.reduce((acc, date) => {
+                    acc[date] = [];
+                    return acc;
+                }, {} as Record<string, typeof orders>);
+
+                orders.forEach(order => {
+                    const dayKey = FormaShortDate.format(order.fecha);
+                    if (ordersByDay[dayKey]) {
+                        const orderObj = order.toObject();
+                        ordersByDay[dayKey].push({
+                            ...orderObj,
+                            fecha: FormaShortDate.format(orderObj.fecha)
+                        } as any);
+                    }
+                });
+
                 return res.status(200).send({
                     status: "success",
                     message: "Órdenes de los últimos 5 días obtenidas correctamente ☕🛒",
                     data: {
                         startDate: FormaShortDate.format(startDate),
                         endDate: FormaShortDate.format(endDate),
+                        last5Days,
                         totalOrders: orders.length,
                         orders: orders.map(order => ({
                             ...order.toObject(),
-                            fecha: FormaShortDate.format(order.fecha)
+                            fecha: order.fecha
                         }))
                     }
                 });
@@ -146,7 +171,7 @@ class OrderController {
                         totalOrders: orders.length,
                         orders: orders.map(order => ({
                             ...order.toObject(),
-                            fecha: FormaShortDate.format(order.fecha)
+                            fecha: order.fecha
                         }))
                     }
                 });
