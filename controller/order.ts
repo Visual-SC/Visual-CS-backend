@@ -85,67 +85,99 @@ class OrderController {
         }
     }
 
+    getLastDays = async (req: Request, res: Response) =>{
+        
+    }
+
+
+
     getDate = async (req: Request, res: Response) => {
         try {
             const type = req.params.type as string;
 
             if (type === 'last5') {
-                const latestOrder = await OrdenCafe.findOne().sort({ fecha: -1 });
+                const distinctDates = await OrdenCafe.aggregate([
+                    {
+                        $group: {
+                            _id: {
+                                $dateToString: { format: "%Y-%m-%d", date: "$fecha" }
+                            }
+                        }
+                    },
+                    { $sort: { _id: -1 } },
+                    { $limit: 5 }
+                ]);
 
-                if (!latestOrder) {
-                    return res.status(404).send({
-                        status: "error",
-                        message: "No se encontraron órdenes ❌"
+                if (distinctDates.length === 0) {
+                    return res.status(200).send({
+                        status: "success",
+                        message: "No hay órdenes registradas ☕",
+                        data: {
+                            dailyOrders: [],
+                            totalOrders: 0
+                        }
                     });
                 }
 
-                const endDate = new Date(latestOrder.fecha);
-                endDate.setHours(23, 59, 59, 999);
+                const dailyOrders: { date: string; orders: any[]; count: number }[] = [];
 
-                const startDate = new Date(endDate);
-                startDate.setDate(startDate.getDate() - 4);
-                startDate.setHours(0, 0, 0, 0);
+                for (const item of distinctDates) {
+                    const dateStr = item._id;
+                    const [year, month, day] = dateStr.split('-').map(Number);
+                    const dayStart = new Date(year, month - 1, day, 0, 0, 0, 0);
+                    const dayEnd = new Date(year, month - 1, day, 23, 59, 59, 999);
 
-                const orders = await OrdenCafe.find({
-                    fecha: { $gte: startDate, $lte: endDate }
-                }).sort({ fecha: -1 });
+                    const dayOrders = await OrdenCafe.find({
+                        fecha: { $gte: dayStart, $lte: dayEnd }
+                    }).sort({ fecha: -1 });
 
-                const last5Days = [];
-                for (let i = 4; i >= 0; i--) {
-                    const day = new Date(endDate);
-                    day.setDate(day.getDate() - i);
-                    day.setHours(0, 0, 0, 0);
-                    last5Days.push(day.toISOString());
+                    dailyOrders.push({
+                        date: dateStr,
+                        orders: dayOrders.map(order => ({
+                            ...order.toObject(),
+                            fecha: order.fecha
+                        })),
+                        count: dayOrders.length
+                    });
                 }
 
-                const ordersByDay = last5Days.reduce((acc, date) => {
-                    acc[date] = [];
-                    return acc;
-                }, {} as Record<string, typeof orders>);
+                const totalOrders = dailyOrders.reduce((sum, d) => sum + d.count, 0);
 
-                orders.forEach(order => {
-                    const dayKey = FormaShortDate.format(order.fecha);
-                    if (ordersByDay[dayKey]) {
-                        const orderObj = order.toObject();
-                        ordersByDay[dayKey].push({
-                            ...orderObj,
-                            fecha: FormaShortDate.format(orderObj.fecha)
-                        } as any);
+                // filtro por query date: /api/order-date/last5?date=2026-06-05
+                const filterDate = req.query.date as string;
+                if (filterDate) {
+                    const matched = dailyOrders.find(d => d.date === filterDate);
+                    if (!matched) {
+                        return res.status(200).send({
+                            status: "success",
+                            message: `No hay órdenes para la fecha ${filterDate} ☕`,
+                            data: {
+                                days: dailyOrders.map(d => d.date),
+                                dailyOrders: [],
+                                totalOrders: 0
+                            }
+                        });
                     }
-                });
+                    return res.status(200).send({
+                        status: "success",
+                        message: `Órdenes del día ${filterDate} obtenidas correctamente ☕`,
+                        data: {
+                            days: dailyOrders.map(d => d.date),
+                            dailyOrders: [matched],
+                            totalOrders: matched.count
+                        }
+                    });
+                }
 
                 return res.status(200).send({
                     status: "success",
-                    message: "Órdenes de los últimos 5 días obtenidas correctamente ☕🛒",
+                    message: "Órdenes de los últimos 5 días obtenidas correctamente ☕",
                     data: {
-                        startDate: FormaShortDate.format(startDate),
-                        endDate: FormaShortDate.format(endDate),
-                        last5Days,
-                        totalOrders: orders.length,
-                        orders: orders.map(order => ({
-                            ...order.toObject(),
-                            fecha: order.fecha
-                        }))
+                        startDate: dailyOrders[dailyOrders.length - 1]?.date || '',
+                        endDate: dailyOrders[0]?.date || '',
+                        days: dailyOrders.map(d => d.date),
+                        totalOrders,
+                        dailyOrders
                     }
                 });
             } else if (type === 'monthly') {
